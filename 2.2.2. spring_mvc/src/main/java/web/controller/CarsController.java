@@ -1,17 +1,12 @@
 package web.controller;
 
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
-
 import org.springframework.web.bind.annotation.RequestParam;
-import web.config.WebConfig;
 import web.model.Car;
-
-import java.util.ArrayList;
+import web.service.CarService;
 import java.util.List;
 
 //1. Создайте еще один контроллер, замаппленный на /cars.
@@ -23,16 +18,14 @@ import java.util.List;
 //при /cars?count=3 - из 3, и тд. При count ≥ 5 выводить весь список машин.
 @Controller
 public class CarsController {
-        private List<Car> carList = new ArrayList<>();
-    {
-        carList.add(new Car("Ferrary", 1352,5034350));
-        carList.add(new Car("Ford", 2042,34350));
-        carList.add(new Car("Mazda", 1014,45350));
-    }
-    @GetMapping(value = "/cars")
-    public String getListCar(@RequestParam(value = "count",required = false)Integer count, ModelMap model){
 
-            model.addAttribute("carList" + carList);
+    @Autowired
+    private CarService carService;
+
+    @GetMapping(value = "cars")
+    public String getListCar(@RequestParam(value = "count",required = false) String count, Model model) {
+        List<Car> carList = carService.getListCars(count);
+        model.addAttribute("carList", carList);
 
         return "carPage";
     }
