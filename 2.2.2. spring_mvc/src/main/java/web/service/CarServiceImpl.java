@@ -9,7 +9,7 @@ import java.util.List;
 public class CarServiceImpl implements CarService {
 
     @Override
-    public List<Car> getListCars(String count) {
+    public List<Car> getListCars(Integer count) {
         List<Car> carList = new ArrayList<>();
 
         carList.add(new Car("Ferrary", 1352, 5034350));
@@ -18,8 +18,9 @@ public class CarServiceImpl implements CarService {
         carList.add(new Car("Gaz", 1344, 34350));
         carList.add(new Car("Vaz", 13314, 45450));
 
-        if (count != null && Integer.parseInt(count) < 5) {
-            for (int i = 4; i >= Integer.parseInt(count); i--) {
+
+        if (count != null && count > 0 && count < 5) {
+            for (int i = 4; i >= count; i--) {
                 carList.remove(i);
             }
         }
